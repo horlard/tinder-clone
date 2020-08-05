@@ -1,12 +1,17 @@
 import React from 'react';
 import Header from './header'
+import TinderCards from './TinderCards'
 import './App.css';
+import { BrowserRouter,Route } from 'react-router-dom';
 
 function App() {
   return (
     <div className="App">
-      <Header/>
-      <h1>App</h1>
+      <BrowserRouter>
+        <Header/>
+        <Route exact path='/' component={TinderCards}/>
+      </BrowserRouter>
+      
     </div>
   );
 }
