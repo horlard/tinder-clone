@@ -1,27 +1,41 @@
-import React,{useState} from 'react'
+import React from 'react'
 import TinderCard from 'react-tinder-card'
+import Axios from './api'
 import './TinderCard.css';
 
-export default function TinderCards() {
-    const [people,setPeople] = useState([
-        {
-            name: 'Steve Jobs',
-            url: 'https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTY2MzU3OTcxMTUwODQxNTM1/steve-jobs--david-paul-morrisbloomberg-via-getty-images.jpg'
-        },
-        {
-            name: 'Mark Zukerburg',
-            url: 'https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTQyMDA0NDgwMzUzNzcyNjA2/mark-zuckerberg_gettyimages-512304736jpg.jpg'
+class TinderCards extends React.Component {
+    state={
+        people: []
+    }
+
+async componentDidMount() {
+    const response= await Axios.get('/search/photos', {
+        params: {
+            query:'single women',
+            per_page:25
         }
-    ])
+    })
+    this.setState({people:response.data.results})
+    console.log(this.state.people)
+}
+        
+
+
+
+
+
+render () {
+    const {people} = this.state
     return (
         <div>
             <div className="card__container">
             {
-                people.map(person=> {
+                people===[] ? <h1>Hello</h1> :
+                people.map((person,i)=> {
                     return (
-                    <TinderCard className='swipe' key={person.name} preventSwipe={['up','down']}>
-                        <div className="card" style={{backgroundImage: `url(${person.url})`,backgroundRepeat:'no-repeat'}}>
-                            <h3>{person.name}</h3>
+                    <TinderCard className='swipe' key={i} preventSwipe={['up','down']}>
+                        <div className="card" style={{backgroundImage: `url(${person.urls.small})`,backgroundRepeat:'no-repeat'}}>
+                            <h3>{person.user.name}</h3>
                         </div>
                     </TinderCard>
                     )
@@ -32,3 +46,6 @@ export default function TinderCards() {
         </div>
     )
 }
+}  
+export default TinderCards;
+
