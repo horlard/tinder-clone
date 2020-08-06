@@ -15,7 +15,6 @@ export default function TinderCards() {
     ])
     return (
         <div>
-            <h1>tinder Cards</h1>
             <div className="card__container">
             {
                 people.map(person=> {
